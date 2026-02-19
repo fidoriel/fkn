@@ -8,6 +8,8 @@ type Props = {
   evaluateWithAI?: (
     text: string,
   ) => Promise<{ correct: boolean; confidence?: number; message?: string }>;
+  sessionActive?: boolean;
+  remainingMs?: number;
 };
 
 export default function QuestionCard({
@@ -15,6 +17,8 @@ export default function QuestionCard({
   onAnswer,
   onNext,
   evaluateWithAI,
+  sessionActive = true,
+  remainingMs = 0,
 }: Props) {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,6 +30,7 @@ export default function QuestionCard({
   const [resultCorrect, setResultCorrect] = useState<boolean | null>(null);
 
   async function submitText() {
+    if (sessionActive === false) return;
     setAiMessage(undefined);
     if (!evaluateWithAI) {
       const expected = (q as TextQuestion).correct_answer.toLowerCase();
@@ -95,6 +100,16 @@ export default function QuestionCard({
     <div className="p-4 bg-card rounded-md shadow-sm">
       <h3 className="font-semibold mb-2">Frage {q.number}</h3>
       <p className="mb-4">{q.question}</p>
+
+      {!sessionActive ? (
+        <div className="mb-3 p-2 rounded bg-red-50 text-red-700">
+          Zeit abgelaufen — Antworten werden nicht bewertet.
+        </div>
+      ) : (
+        <div className="mb-3 text-sm text-muted-foreground">
+          Verbleibende Zeit: {Math.ceil(remainingMs / 1000)}s
+        </div>
+      )}
 
       {isChoice ? (
         <div className="flex flex-col gap-2">

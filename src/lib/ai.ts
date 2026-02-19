@@ -2,7 +2,7 @@ import { AIConfig } from "./storage";
 
 type AIResponse = {
   ok: boolean;
-  score?: number; // 0..1 where >threshold is correct
+  confidence?: number; // 0..1 where >threshold is correct
   message?: string;
 };
 
@@ -125,7 +125,7 @@ Gib die Bewertung IMMER als JSON zurück mit den Feldern: correct, confidence, e
       if (confidence > 1) confidence = 1;
       if (confidence < 0) confidence = 0;
 
-      return { ok: true, score: confidence, message: explanation };
+      return { ok: true, confidence, message: explanation };
     }
 
     // Fallback: much stricter keyword-based heuristic
@@ -140,7 +140,7 @@ Gib die Bewertung IMMER als JSON zurück mit den Feldern: correct, confidence, e
       );
 
     const score = positive ? 0.95 : 0.05;
-    return { ok: true, score, message: text };
+    return { ok: true, confidence: score, message: text };
   } catch (e: any) {
     if (e.name === "AbortError")
       return { ok: false, message: "AI request timed out" };

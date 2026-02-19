@@ -20,7 +20,7 @@ jobs:
         run: npm i
 
       - name: Build
-        run: npm build
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         id: deployment
