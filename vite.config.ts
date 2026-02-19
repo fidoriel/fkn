@@ -5,6 +5,7 @@ import tailwindcss from "tailwindcss";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV === "production" ? "/fkn/" : "/",
   plugins: [react()],
   css: {
     postcss: {
