@@ -108,7 +108,7 @@ function App() {
       <BrowserRouter>
         <LandingNavbar />
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/fkn" element={<Landing />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/setup" element={<Setup />} />
           <Route path="/learn" element={<Learn />} />
